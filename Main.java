@@ -1,13 +1,20 @@
-import dao.DatabaseConnection;
-import ui.ConsoleUI;
+import dao.DatabaseInitializer;
+import dao.UserDao;
+import ui.Authentication;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Initialize SQLite database and tables automatically
-        DatabaseConnection.initializeDatabase();
+        // 1. Initialize Database & Tables automatically via DatabaseInitializer
+        DatabaseInitializer.initializeDatabase();
 
-        // Start console UI interaction loop
-        ConsoleUI consoleUI = new ConsoleUI();
-        consoleUI.start();
+        // 2. Instantiate shared DAOs and utilities
+        UserDao userDao = new UserDao();
+        Scanner scanner = new Scanner(System.in);
+
+        // 3. Delegate execution flow to Authentication UI
+        Authentication auth = new Authentication(userDao, scanner);
+        auth.start();
     }
 }

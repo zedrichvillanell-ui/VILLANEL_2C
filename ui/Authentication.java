@@ -48,15 +48,18 @@ public class Authentication {
 
         System.out.println("Select Role:");
         System.out.println("1. STUDENT");
-        System.out.println("2. CLINIC_STAFF");
-        System.out.println("3. ADMIN");
-        System.out.print("Choose role (1-3): ");
+        System.out.println("2. TEACHER");
+        System.out.println("3. CLINIC_STAFF");
+        System.out.println("4. ADMIN");
+        System.out.print("Choose role (1-4): ");
         String roleChoice = scanner.nextLine();
 
         String role = "STUDENT";
         if (roleChoice.equals("2")) {
-            role = "CLINIC_STAFF";
+            role = "TEACHER";
         } else if (roleChoice.equals("3")) {
+            role = "CLINIC_STAFF";
+        } else if (roleChoice.equals("4")) {
             role = "ADMIN";
         }
 
@@ -96,28 +99,21 @@ public class Authentication {
     private void showDashboard(User user) {
         while (true) {
             System.out.println("\n--- " + user.getRole() + " DASHBOARD ---");
-            if ("STUDENT".equals(user.getRole())) {
-                System.out.println("1. Request Appointment");
-                System.out.println("2. View My Appointments");
-                System.out.println("3. Logout");
-            } else if ("CLINIC_STAFF".equals(user.getRole())) {
-                System.out.println("1. Manage Student Appointments");
-                System.out.println("2. View Clinic Records");
-                System.out.println("3. Logout");
-            } else if ("ADMIN".equals(user.getRole())) {
-                AdminMenu adminMenu = new AdminMenu(userDao, scanner);
+            if ("ADMIN".equals(user.getRole())) {
+                AdminMenu adminMenu = new AdminMenu(userDao, scanner, user);
                 adminMenu.showMenu();
                 break;
-            }
-
-            System.out.print("Choose an option: ");
-            String choice = scanner.nextLine();
-
-            if (choice.equals("3") || choice.equalsIgnoreCase("logout")) {
-                System.out.println("Logging out session...");
-                break;
             } else {
-                System.out.println("Feature ready for next implementation phase.");
+                System.out.println("1. View Profile / Dashboard");
+                System.out.println("2. Logout");
+                System.out.print("Choose an option: ");
+                String choice = scanner.nextLine();
+                if (choice.equals("2") || choice.equalsIgnoreCase("logout")) {
+                    System.out.println("Logging out session...");
+                    break;
+                } else {
+                    System.out.println("Feature ready for next implementation phase.");
+                }
             }
         }
     }
